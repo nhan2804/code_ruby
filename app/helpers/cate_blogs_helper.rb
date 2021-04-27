@@ -1,0 +1,2 @@
+module CateBlogsHelper
+end
