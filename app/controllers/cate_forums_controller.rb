@@ -3,7 +3,7 @@ class CateForumsController < ApplicationController
 
   # GET /cate_forums or /cate_forums.json
   def index
-    @cate_forums = CateForum.all.forum
+    @cate_forums = CateForum.all
     render :json=>@cate_forums
   end
 

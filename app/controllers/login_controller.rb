@@ -1,8 +1,9 @@
 class LoginController < ApplicationController
     def index
-        @user = Account.find(11)
-        session[:user_id] = @user.id 
-        render :json=>[@user]
+        @name = Account.where(user:params[:username]).first()
+        # @user = Account.find(11)
+        session[:user_id] = @name.id 
+        render :json=>[@name]
     end
     
 end
