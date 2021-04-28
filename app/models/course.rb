@@ -4,4 +4,5 @@ class Course < ApplicationRecord
     has_many :lesson,
     primary_key: :id_course, 
     foreign_key: :course_parent
+  
 end

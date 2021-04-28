@@ -1,5 +1,6 @@
 class ForumsController < ApplicationController
   before_action :set_forum, only: %i[ show edit update destroy ]
+  skip_before_action :verify_authenticity_token
 
   # GET /forums or /forums.json
   def index
@@ -24,17 +25,19 @@ class ForumsController < ApplicationController
 
   # POST /forums or /forums.json
   def create
-    @forum = Forum.new(forum_params)
-
-    respond_to do |format|
-      if @forum.save
-        format.html { redirect_to @forum, notice: "Forum was successfully created." }
-        format.json { render :show, status: :created, location: @forum }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @forum.errors, status: :unprocessable_entity }
-      end
-    end
+    @new = Forum.new(title_post:params[:title], content_post:params[:content],auth_post: session[:user_id],id_cate_forum:params[:cate],slug_forum:'j',like_post:0,bgcolor:0,views:0,comments:0)
+    @new.save()
+    render :json=>@new
+  
+    # respond_to do |format|
+    #   if @forum.save
+    #     format.html { redirect_to @forum, notice: "Forum was successfully created." }
+    #     format.json { render :show, status: :created, location: @forum }
+    #   else
+    #     format.html { render :new, status: :unprocessable_entity }
+    #     format.json { render json: @forum.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /forums/1 or /forums/1.json
@@ -67,6 +70,6 @@ class ForumsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def forum_params
-      params.fetch(:forum, {})
+      # params.fetch(:forum, {})
     end
 end

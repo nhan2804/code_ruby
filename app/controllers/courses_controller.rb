@@ -1,23 +1,26 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: %i[ show edit update destroy ]
+  skip_before_action :verify_authenticity_token
 
   # GET /courses or /courses.json
   def index
     @course = Course.select('course.*','course_cate.*').joins(:cate_course)
     
-    render :json =>@course.group_by { |t| t.cate_course.name }
+    render :json =>@course.group_by  { |t| t.cate_course.name }
   end
 
   # GET /courses/1 or /courses/1.json
   def show
+  #  sql = "SELECT `course`.* FROM `course` JOIN LEFT account_course ON id_user= WHERE `course`.`id_course` = "+params[:id]+" LIMIT 1"
+  #   records_array = ActiveRecord::Base.connection.execute(sql)
     @course = Course.find(params[:id])
     @chap = @course.lesson
-    render :json =>[@course,@chap]
+    render :json =>[@course,@chap,session[:id_course]]
   end
 
   # GET /courses/new
   def new
-    @course = Course.new
+    
   end
 
   # GET /courses/1/edit
@@ -26,17 +29,11 @@ class CoursesController < ApplicationController
 
   # POST /courses or /courses.json
   def create
-    @course = Course.new(course_params)
+    @course = CourseAccount.new(id_user:session[:user_id],id_course: params[:course],coin:5000)
+    @course.save()
+    session[:id_course] =params[:course]
+    render :json =>[@course]
 
-    respond_to do |format|
-      if @course.save
-        format.html { redirect_to @course, notice: "Course was successfully created." }
-        format.json { render :show, status: :created, location: @course }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /courses/1 or /courses/1.json
