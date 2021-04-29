@@ -29,10 +29,10 @@ class CoursesController < ApplicationController
 
   # POST /courses or /courses.json
   def create
-    @course = CourseAccount.new(id_user:session[:user_id],id_course: params[:course],coin:5000)
+    @course = CourseAccount.new(id_user:11,id_course: params[:course],coin:5000)
     @course.save()
     session[:id_course] =params[:course]
-    render :json =>[@course]
+    render :json =>[@course,session[:id_course]]
 
   end
 

@@ -24,11 +24,12 @@ class CommentsController < ApplicationController
 
   # POST /comments or /comments.json
   def create
+    # session[:user_id] 
     
-    @comment = Comment.new(content_cmt:params[:content_cmt],id_forum:params[:id_forum], id_auth: session[:user_id],id_parent: 0,id_blog:0 )
+    @comment = Comment.new(content_cmt:params[:content_cmt],id_forum:params[:id_forum],id_auth: 11,id_parent: 0,id_blog:0 )
     @comment.save()
     @ok = Comment.joins(:account).select("cmt.*,accounts.*").where('id_cmt': @comment.id_cmt)
-    render :json => @ok
+    render :json =>@ok
 
     # respond_to do |format|
     #   if @comment.save

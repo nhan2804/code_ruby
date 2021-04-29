@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :cate_forums
   resources :forums
   resources :documents
-  get 'login', to: 'login#index'
+  post 'login', to: 'login#index'
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
