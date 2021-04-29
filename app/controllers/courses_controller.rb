@@ -14,8 +14,9 @@ class CoursesController < ApplicationController
   #  sql = "SELECT `course`.* FROM `course` JOIN LEFT account_course ON id_user= WHERE `course`.`id_course` = "+params[:id]+" LIMIT 1"
   #   records_array = ActiveRecord::Base.connection.execute(sql)
     @course = Course.find(params[:id])
+    @bought= CourseAccount.where(id_user:11,id_course:params[:id]).count()
     @chap = @course.lesson
-    render :json =>[@course,@chap,session[:id_course]]
+    render :json =>[@course,@chap,@bought]
   end
 
   # GET /courses/new
